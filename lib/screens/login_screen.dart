@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/ui/input_decorations.dart';
 
 class LoginScreen extends StatelessWidget {
   static String routerName = "login";
@@ -12,7 +13,95 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _LogoBackground()
+              _LogoBackground(),
+              Text(
+                "Welcome to Saifty!",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Keep your data safe!",
+                style:
+                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Form(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color.fromRGBO(243, 240, 238, 1)),
+                        child: TextFormField(
+                          // enabled: !loginForm.isLoading,
+                          autocorrect: false,
+                          keyboardType: TextInputType.emailAddress,
+
+                          decoration: InputDecorations.authInputDecoration(
+                            hintText: 'john.doe@gmail.com',
+                            labelText: 'Correo electrónico',
+                            // suffixIcon: Icons.alternate_email,
+                          ),
+                          validator: (value) {
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regExp = RegExp(pattern);
+                            return regExp.hasMatch(value ?? '')
+                                ? null
+                                : 'El correo no es valido';
+                          },
+                          // onChanged: (value) => loginForm.email = value,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color.fromRGBO(243, 240, 238, 1)),
+                        child: TextFormField(
+                          // enabled: !loginForm.isLoading,
+                          autocorrect: false,
+                          keyboardType: TextInputType.emailAddress,
+
+                          decoration: InputDecorations.authInputDecoration(
+                            hintText: '********',
+                            labelText: 'Contraseña',
+                            // suffixIcon: Icons.alternate_email,
+                          ),
+                          validator: (value) {
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regExp = RegExp(pattern);
+                            return regExp.hasMatch(value ?? '')
+                                ? null
+                                : 'El correo no es valido';
+                          },
+                          // onChanged: (value) => loginForm.email = value,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text("Forgot password?"),
+                style: ButtonStyle(
+                     
+                ),
+              )
             ],
           ),
         ),
@@ -26,9 +115,16 @@ class _LogoBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        _FirstBox()
+        Positioned(
+          left: size.width * 0.5 - 40,
+          height: size.height * 0.2 + 40,
+          child: const Icon(Icons.shield_outlined,
+              size: 80, color: Color.fromRGBO(119, 63, 223, 1)),
+        ),
+        const _FirstBox()
       ],
     );
   }
@@ -43,46 +139,25 @@ class _FirstBox extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.4,
-      // decoration: _backgroundFirstBox(),
+      height: size.height * 0.3,
+      // color: Colors.grey.withOpacity(0.6),
       child: Stack(
-        children: const [
+        children: [
           Positioned(
-            top: 90,
-            left: 30,
-            child: _Bubble(),
+            top: size.height * 0.15,
+            left: size.width * 0.5 + 50,
+            child: const _Bubble(25, 25),
           ),
           Positioned(
-            top: -40,
-            left: -30,
-            child: _Bubble(),
+            top: size.height * 0.1,
+            left: size.width * 0.5 - 70,
+            child: const _Bubble(20, 20),
           ),
           Positioned(
-            top: -50,
-            right: -20,
-            child: _Bubble(),
+            top: size.height * 0.06,
+            left: size.width * 0.5 + 50,
+            child: const _Bubble(15, 15),
           ),
-          Positioned(
-            bottom: -50,
-            left: 10,
-            child: _Bubble(),
-          ),
-          Positioned(
-            bottom: 120,
-            right: 20,
-            child: _Bubble(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  BoxDecoration _backgroundFirstBox() {
-    return const BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          Color.fromRGBO(63, 63, 156, 1),
-          Color.fromRGBO(90, 70, 178, 1),
         ],
       ),
     );
@@ -90,16 +165,18 @@ class _FirstBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble();
+  final double width;
+  final double height;
+  const _Bubble(this.width, this.height);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: const Color.fromRGBO(255, 255, 0, 1)),
+          color: const Color.fromRGBO(163, 135, 216, .3)),
     );
   }
 }
