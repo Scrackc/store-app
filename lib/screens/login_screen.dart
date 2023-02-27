@@ -10,102 +10,165 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _LogoBackground(),
-              Text(
-                "Welcome to Saifty!",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Keep your data safe!",
-                style:
-                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Form(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromRGBO(243, 240, 238, 1)),
-                        child: TextFormField(
-                          // enabled: !loginForm.isLoading,
-                          autocorrect: false,
-                          keyboardType: TextInputType.emailAddress,
-
-                          decoration: InputDecorations.authInputDecoration(
-                            hintText: 'john.doe@gmail.com',
-                            labelText: 'Correo electrónico',
-                            // suffixIcon: Icons.alternate_email,
-                          ),
-                          validator: (value) {
-                            String pattern =
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regExp = RegExp(pattern);
-                            return regExp.hasMatch(value ?? '')
-                                ? null
-                                : 'El correo no es valido';
-                          },
-                          // onChanged: (value) => loginForm.email = value,
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const _LogoAndForm(),
+                    // * Boton de registro
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          style: TextStyle(color: Colors.grey),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromRGBO(243, 240, 238, 1)),
-                        child: TextFormField(
-                          // enabled: !loginForm.isLoading,
-                          autocorrect: false,
-                          keyboardType: TextInputType.emailAddress,
-
-                          decoration: InputDecorations.authInputDecoration(
-                            hintText: '********',
-                            labelText: 'Contraseña',
-                            // suffixIcon: Icons.alternate_email,
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Register!",
+                            style: TextStyle(
+                                color: Color.fromRGBO(119, 63, 223, 1),
+                                fontWeight: FontWeight.bold),
                           ),
-                          validator: (value) {
-                            String pattern =
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regExp = RegExp(pattern);
-                            return regExp.hasMatch(value ?? '')
-                                ? null
-                                : 'El correo no es valido';
-                          },
-                          // onChanged: (value) => loginForm.email = value,
-                        ),
-                      ),
-                    ],
-                  ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Forgot password?"),
-                style: ButtonStyle(
-                     
-                ),
-              )
-            ],
-          ),
+            );
+          },
         ),
       ),
+    );
+  }
+}
+
+class _LogoAndForm extends StatelessWidget {
+  const _LogoAndForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        _LogoBackground(),
+        Text(
+          "Welcome to Saifty!",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+          "Keep your data safe!",
+          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        Form(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromRGBO(243, 240, 238, 1)),
+                  child: TextFormField(
+                    // enabled: !loginForm.isLoading,
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+
+                    decoration: InputDecorations.authInputDecoration(
+                      hintText: 'john.doe@gmail.com',
+                      labelText: 'Correo electrónico',
+                      // suffixIcon: Icons.alternate_email,
+                    ),
+                    validator: (value) {
+                      String pattern =
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : 'El correo no es valido';
+                    },
+                    // onChanged: (value) => loginForm.email = value,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromRGBO(243, 240, 238, 1)),
+                  child: TextFormField(
+                    // enabled: !loginForm.isLoading,
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+
+                    decoration: InputDecorations.authInputDecoration(
+                      hintText: '********',
+                      labelText: 'Contraseña',
+                      // suffixIcon: Icons.alternate_email,
+                    ),
+                    validator: (value) {
+                      String pattern =
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : 'El correo no es valido';
+                    },
+                    // onChanged: (value) => loginForm.email = value,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size.fromHeight(50),
+                    backgroundColor: Color.fromRGBO(119, 63, 223, 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            "Forgot password?",
+            style: TextStyle(
+              color: Color.fromRGBO(119, 63, 223, 1),
+            ),
+          ),
+          style: ButtonStyle(),
+        ),
+      ],
     );
   }
 }
@@ -137,9 +200,9 @@ class _FirstBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      height: size.height * 0.3,
+      height: size.height * 0.25,
       // color: Colors.grey.withOpacity(0.6),
       child: Stack(
         children: [
